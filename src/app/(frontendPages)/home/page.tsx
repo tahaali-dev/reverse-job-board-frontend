@@ -3,8 +3,10 @@
 import Header from "@/app/CommonComps/Header";
 import React from "react";
 import { useRouter } from "next/navigation";
+
 export default function page() {
   const router = useRouter();
+
   return (
     <>
       <Header />
@@ -21,7 +23,7 @@ export default function page() {
             <button
               className="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700"
               onClick={() => {
-                router.push("/signupWho");
+                router.push("/signup");
               }}
             >
               Create Your Data Scientist Profile

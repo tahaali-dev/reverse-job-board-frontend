@@ -18,7 +18,7 @@ function Header() {
           <button
             className="text-gray-700 hover:text-gray-900"
             onClick={() => {
-              router.push("/loginWho");
+              router.push("/login");
             }}
           >
             Login
@@ -26,7 +26,7 @@ function Header() {
           <button
             className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800"
             onClick={() => {
-              router.push("/signupWho");
+              router.push("/signup");
             }}
           >
             Sign Up

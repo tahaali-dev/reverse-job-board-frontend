@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowLeft, Plus, Upload } from "lucide-react";
-import UserHeader from "@/app/CommonComps/UserHeader";
+import UserHeader from "@/app/CommonComps/DashboardHeader";
 import { useRouter } from "next/navigation";
 
 export default function Component() {
@@ -19,7 +19,7 @@ export default function Component() {
 
   return (
     <>
-      <UserHeader currentUrl="/user/makeProfile" />
+      <UserHeader currentUrl="/makeProfile" />
 
       <div className="min-h-screen bg-gray-50 p-4 md:p-8">
         <div className="mx-auto max-w-4xl bg-white rounded-lg shadow p-6">
@@ -27,7 +27,7 @@ export default function Component() {
             <div
               className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
               onClick={() => {
-                router.push("/user/dashboard");
+                router.push("/dashboard");
               }}
             >
               <ArrowLeft className="w-4 h-4 mr-1" />

@@ -5,8 +5,9 @@ interface UserHeaderProps {
   currentUrl: string;
 }
 
-const UserHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
+const DashboardHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
   const router = useRouter();
+  const user = localStorage.getItem("user");
   return (
     <>
       <header className="bg-white border-b">
@@ -16,22 +17,45 @@ const UserHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
             <h1
               className="text-xl font-bold cursor-pointer"
               onClick={() => {
-                router.push("/user/dashboard");
+                router.push("/dashboard");
               }}
             >
               DataJobs
             </h1>
           </div>
+
           <div className="flex gap-4">
-            {currentUrl !== "/user/makeProfile" && (
+            {user === "jobSeeker" && currentUrl !== "/makeProfile" && (
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                 onClick={() => {
-                  router.push("/user/makeProfile");
+                  router.push("/makeProfile");
                 }}
               >
                 Post Your Profile
               </button>
+            )}
+
+            {user === "employer" && (
+              <>
+                <button
+                  className="border px-4 py-2 rounded-md hover:bg-slate-50"
+                  onClick={() => {
+                    router.push("#");
+                  }}
+                >
+                  Data Scientist
+                </button>
+
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                  onClick={() => {
+                    router.push("#");
+                  }}
+                >
+                  Subscription
+                </button>
+              </>
             )}
             <button
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
@@ -48,4 +72,4 @@ const UserHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
   );
 };
 
-export default UserHeader;
+export default DashboardHeader;

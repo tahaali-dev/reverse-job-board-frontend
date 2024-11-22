@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardHeader from "@/app/CommonComps/DashboardHeader";
 import {
   ArrowLeft,
   Download,
@@ -11,23 +12,22 @@ import {
   Linkedin,
   LinkIcon,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
-import UserHeader from "../../../CommonComps/UserHeader";
+
 import { useRouter } from "next/navigation";
+
 export default function Component() {
   const router = useRouter();
   return (
     <>
-      <UserHeader currentUrl="" />
-
+      <DashboardHeader currentUrl="" />
       <div className="min-h-screen bg-gray-50 m-2">
         <div className="max-w-6xl mx-auto px-4">
           <div className="py-4">
             <div
               className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 cursor-pointer"
               onClick={() => {
-                router.push("/user/dashboard");
+                router.push("/dashboard");
               }}
             >
               <ArrowLeft className="w-4 h-4 mr-1" />

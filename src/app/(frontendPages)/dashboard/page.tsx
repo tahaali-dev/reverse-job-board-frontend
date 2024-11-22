@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Search, MapPin, Clock, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
-import UserHeader from "@/app/CommonComps/UserHeader";
+import DashboardHeader from "@/app/CommonComps/DashboardHeader";
 
 export default function Component() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,7 +37,7 @@ export default function Component() {
 
   return (
     <>
-      <UserHeader currentUrl="" />
+      <DashboardHeader currentUrl="" />
       <div className="min-h-screen bg-gray-50">
         {/* Search Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -175,7 +175,7 @@ export default function Component() {
                       <button
                         className="flex items-center space-x-1 text-blue-600 hover:text-blue-700"
                         onClick={() => {
-                          router.push("/user/viewProfile");
+                          router.push("/viewProfile");
                         }}
                       >
                         <span>View Profile</span>
