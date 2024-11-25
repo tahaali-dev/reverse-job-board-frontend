@@ -8,6 +8,7 @@ interface UserHeaderProps {
 const DashboardHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
   const router = useRouter();
   const user = localStorage.getItem("user");
+
   return (
     <>
       <header className="bg-white border-b">
@@ -61,6 +62,7 @@ const DashboardHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
               onClick={() => {
                 router.push("/home");
+                localStorage.removeItem("at");
               }}
             >
               Logout
