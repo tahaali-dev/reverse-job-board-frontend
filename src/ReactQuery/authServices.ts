@@ -117,7 +117,7 @@ const refreshAccessToken = async () => {
 export const useAuth = async () => {
   const data = await axiosInstance.get("/api/auth/session").then(({ data }) => {
     if (!data.loggedIn) {
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
   });
 };
