@@ -4,12 +4,10 @@ export const useSetLogin = (userLogin: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // handle submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     userLogin({ email, password });
-
-    // L-store
-    const user = "jobSeeker";
   };
 
   return {

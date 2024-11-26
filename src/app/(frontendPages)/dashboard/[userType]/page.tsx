@@ -1,9 +1,9 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, MapPin, Clock, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/app/CommonComps/DashboardHeader";
+import { useAuth } from "@/ReactQuery/authServices";
 
 export default function Component() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,6 +34,10 @@ export default function Component() {
       type: "Full-time",
     },
   ];
+
+  useEffect(() => {
+    useAuth();
+  }, []);
 
   return (
     <>

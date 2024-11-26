@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useUserLogin } from "@/ReactQuery/authServices";
 import { useSetLogin } from "./loginMethods";
 import toast from "react-hot-toast";
-import { encrypt } from "@/utils/authHelpers";
 
 export default function Component() {
   const router = useRouter();
@@ -18,9 +17,7 @@ export default function Component() {
     (data: any) => {
       userLogin(data, {
         onSuccess: (response) => {
-          const encryptedToken = encrypt(response.token);
-          localStorage.setItem("at", encryptedToken);
-          router.push("/dashboard");
+          router.push(`/dashboard/${response?.userType}`);
         },
         onError: (err: any) => {
           toast.error(err?.message);
