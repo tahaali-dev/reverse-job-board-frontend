@@ -1,32 +1,18 @@
 "use client";
-import React from "react";
-import { ArrowRight, User, AtSign, Lock } from "lucide-react";
-import Header from "@/app/CommonComps/Header";
+import React, { useState } from "react";
+import { ArrowRight, Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useUserRegister } from "@/ReactQuery/authServices";
 import { useSetSignForm } from "./signupMethods";
-import toast from "react-hot-toast";
+import { useUserRegister } from "@/ReactQuery/authServices";
 
 export default function Component() {
   const router = useRouter();
+  const { isLoading } = useUserRegister();
 
-  // Register Mutation --
-  const { mutate: userReg, isLoading } = useUserRegister();
+  const { formData, handleChange, handleSubmit } = useSetSignForm();
 
-  // Custom hook for form data and handlers --
-  const { formData, handleChange, handleSubmit } = useSetSignForm(
-    (data: any) => {
-      userReg(data, {
-        onSuccess: () => {
-          toast.success("Registration successful");
-          router.push("/login");
-        },
-        onError: (err: any) => {
-          toast.error(err?.message);
-        },
-      });
-    }
-  );
+  const [seePassword, setSeePassword] = useState<boolean>(false);
+  const [seeConfirmPassword, setSeeConfirmPassword] = useState<boolean>(false);
 
   return (
     <>
@@ -52,9 +38,6 @@ export default function Component() {
                       Full Name
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="full-name"
                         name="name"
@@ -72,9 +55,6 @@ export default function Component() {
                       Email address
                     </label>
                     <div className="relative">
-                      <div className="absolute left-0 pl-3 flex items-center pointer-events-none">
-                        <AtSign className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="email-address"
                         name="email"
@@ -93,20 +73,24 @@ export default function Component() {
                       Password
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="password"
                         name="password"
-                        type="password"
+                        type={seePassword ? "text" : "password"}
                         autoComplete="new-password"
                         required
-                        className="appearance-none mt-2 rounded-md relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        className="appearance-none mt-2 rounded-md relative block w-full px-3 py-2 pl-10 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="Password"
                         value={formData.password}
                         onChange={handleChange}
                       />
+                      <button
+                        type="button"
+                        onClick={() => setSeePassword(!seePassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 z-10"
+                      >
+                        {seePassword ? <Eye /> : <EyeOff />}
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -114,13 +98,10 @@ export default function Component() {
                       Confirm Password
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="confirm-password"
                         name="confirmPassword"
-                        type="password"
+                        type={seeConfirmPassword ? "text" : "password"}
                         autoComplete="new-password"
                         required
                         className="appearance-none mt-2 rounded-md relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
@@ -128,6 +109,15 @@ export default function Component() {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                       />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSeeConfirmPassword(!seeConfirmPassword)
+                        }
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 z-10"
+                      >
+                        {seeConfirmPassword ? <Eye /> : <EyeOff />}
+                      </button>
                     </div>
                   </div>
                   <div>

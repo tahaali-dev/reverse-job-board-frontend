@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/app/CommonComps/Header";
 import React from "react";
 import { useRouter } from "next/navigation";
 

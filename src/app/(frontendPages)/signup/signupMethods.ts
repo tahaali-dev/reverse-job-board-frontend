@@ -1,4 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { ZodError } from "zod";
+import { SignUpSchema } from "@/app/schemas/userSchema";
+import { useUserRegister } from "@/ReactQuery/authServices";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   name: string;
@@ -8,7 +13,10 @@ interface FormData {
   userType: string;
 }
 
-export const useSetSignForm = (userReg: any) => {
+export const useSetSignForm = () => {
+  const { mutate: userReg } = useUserRegister();
+  const router = useRouter();
+
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -29,7 +37,27 @@ export const useSetSignForm = (userReg: any) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    userReg(formData);
+
+    try {
+      const validatedData = SignUpSchema.parse(formData);
+      userReg(validatedData, {
+        onSuccess: () => {
+          toast.success("Registration successful");
+          router.push("/login");
+        },
+        onError: (err: any) => {
+          toast.error(err?.message);
+        },
+      });
+    } catch (error) {
+      if (error instanceof ZodError) {
+        error.errors.forEach((err) => {
+          toast.error(`${err.message}`, {
+            position: "top-right",
+          });
+        });
+      }
+    }
   };
 
   return {

@@ -1,30 +1,17 @@
 "use client";
 import { useState } from "react";
-import { ArrowRight, AtSign, Lock, Code, Database, Brain } from "lucide-react";
+import { ArrowRight, Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserLogin } from "@/ReactQuery/authServices";
 import { useSetLogin } from "./loginMethods";
-import toast from "react-hot-toast";
 
 export default function Component() {
   const router = useRouter();
+  const { isLoading } = useUserLogin();
+  const { email, password, setEmail, setPassword, handleSubmit } =
+    useSetLogin();
 
-  // mutation hook --
-  const { mutate: userLogin, isLoading } = useUserLogin();
-
-  // custom login hook --
-  const { email, password, setEmail, setPassword, handleSubmit } = useSetLogin(
-    (data: any) => {
-      userLogin(data, {
-        onSuccess: (response) => {
-          router.push(`/dashboard/${response?.userType}`);
-        },
-        onError: (err: any) => {
-          toast.error(err?.message);
-        },
-      });
-    }
-  );
+  const [seePassword, setSeePassword] = useState<boolean>(false);
 
   return (
     <>
@@ -49,9 +36,6 @@ export default function Component() {
                       Email address
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <AtSign className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="email-address"
                         name="email"
@@ -70,13 +54,10 @@ export default function Component() {
                       Password
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-gray-400" />
-                      </div>
                       <input
                         id="password"
                         name="password"
-                        type="password"
+                        type={seePassword ? "text" : "password"}
                         autoComplete="current-password"
                         required
                         className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
@@ -84,6 +65,13 @@ export default function Component() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
+                      <button
+                        type="button"
+                        onClick={() => setSeePassword(!seePassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 z-10"
+                      >
+                        {seePassword ? <Eye /> : <EyeOff />}
+                      </button>
                     </div>
                   </div>
                 </div>
