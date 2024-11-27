@@ -9,8 +9,6 @@ export default function page() {
 
   return (
     <>
-      <Header />
-
       <div className="min-h-screen bg-blue-50 font-sans">
         <main className="text-center px-4 py-12 md:py-24">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">

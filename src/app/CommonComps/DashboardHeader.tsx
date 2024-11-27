@@ -1,3 +1,4 @@
+import { logout } from "@/ReactQuery/authServices";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -8,6 +9,7 @@ interface UserHeaderProps {
 const DashboardHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
   const router = useRouter();
   const user = localStorage.getItem("user");
+
   return (
     <>
       <header className="bg-white border-b">
@@ -60,7 +62,9 @@ const DashboardHeader: React.FC<UserHeaderProps> = ({ currentUrl }) => {
             <button
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
               onClick={() => {
-                router.push("/home");
+                logout();
+                // router.push("/home");
+                // localStorage.removeItem("at");
               }}
             >
               Logout

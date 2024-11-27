@@ -79,7 +79,6 @@ export default function Component() {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gray-100 p-4 flex items-center justify-center">
         <div className="w-full max-w-2xl bg-white rounded-lg shadow-sm">
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
