@@ -16,7 +16,6 @@ export const useSetLogin = () => {
 
     try {
       const validatedData = LoginSchema.parse({ email, password });
-      console.log(validatedData);
       userLogin(validatedData, {
         onSuccess: (response) => {
           toast.success("Login Successful");
