@@ -8,6 +8,7 @@ import store from "./Redux/store";
 import { Toaster } from "react-hot-toast";
 import Header from "./CommonComps/Header";
 import Footer from "./CommonComps/Footer";
+import { useEffect } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

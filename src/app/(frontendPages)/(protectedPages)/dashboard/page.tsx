@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { Search, MapPin, Clock, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
-import DashboardHeader from "@/app/CommonComps/DashboardHeader";
-import { useAuth } from "@/ReactQuery/authServices";
 
 export default function Component() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,13 +33,8 @@ export default function Component() {
     },
   ];
 
-  useEffect(() => {
-    useAuth();
-  }, []);
-
   return (
     <>
-      <DashboardHeader currentUrl="" />
       <div className="min-h-screen bg-gray-50">
         {/* Search Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

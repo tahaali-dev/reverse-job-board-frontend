@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import DashboardHeader from "@/app/CommonComps/DashboardHeader";
 import { useRouter } from "next/navigation";
 
 export default function BusinessProfileForm() {
@@ -22,7 +21,6 @@ export default function BusinessProfileForm() {
 
   return (
     <>
-      <DashboardHeader currentUrl="" />
       <div className="container mx-auto p-6">
         <div className="mb-6">
           <div

@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardHeader from "@/app/CommonComps/DashboardHeader";
 import {
   ArrowLeft,
   Download,
@@ -20,7 +19,6 @@ export default function Component() {
   const router = useRouter();
   return (
     <>
-      <DashboardHeader currentUrl="" />
       <div className="min-h-screen bg-gray-50 m-2">
         <div className="max-w-6xl mx-auto px-4">
           <div className="py-4">

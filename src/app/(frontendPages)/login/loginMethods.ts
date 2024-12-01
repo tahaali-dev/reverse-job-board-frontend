@@ -19,7 +19,7 @@ export const useSetLogin = () => {
       userLogin(validatedData, {
         onSuccess: (response) => {
           toast.success("Login Successful");
-          router.push(`/dashboard/${response?.userType}`);
+          router.push(`/dashboard`);
         },
         onError: (err: any) => {
           toast.error(err?.message);

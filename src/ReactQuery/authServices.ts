@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { store } from "../app/Redux/store";
+import { setAuth } from "../app/Redux/slices/authSlice";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -56,7 +58,9 @@ async function userLogin(userData: Record<string, any>) {
         "Content-Type": "application/json",
       },
     });
-
+    store.dispatch(
+      setAuth({ id: response.data.id, userType: response.data.userType })
+    );
     return response.data; // Ensure your API returns useful data
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -99,7 +103,7 @@ export const logout = async () => {
 };
 
 // Refresh access token
-const refreshAccessToken = async () => {
+export const refreshAccessToken = async () => {
   try {
     await axiosInstance.post(
       `/api/auth/refresh-token`,
@@ -111,13 +115,15 @@ const refreshAccessToken = async () => {
   }
 };
 
-// setInterval(refreshAccessToken, 10 * 1000); // Refresh every 10 seconds
-
 // verify user is logged in --
 export const useAuth = async () => {
-  const data = await axiosInstance.get("/api/auth/session").then(({ data }) => {
-    if (!data.loggedIn) {
-      // window.location.href = "/login";
+  try {
+    const response = await axiosInstance.get("/api/auth/session");
+    if (!response.data.loggedIn) {
+      window.location.href = "/login";
     }
-  });
+  } catch (error) {
+    console.error("Error checking authentication:", error);
+    window.location.href = "/login";
+  }
 };

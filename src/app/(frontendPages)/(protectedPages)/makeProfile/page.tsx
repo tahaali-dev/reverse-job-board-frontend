@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ArrowLeft, Plus, Upload } from "lucide-react";
-import UserHeader from "@/app/CommonComps/DashboardHeader";
 import { useRouter } from "next/navigation";
 
 export default function Component() {
@@ -19,8 +18,6 @@ export default function Component() {
 
   return (
     <>
-      <UserHeader currentUrl="/makeProfile" />
-
       <div className="min-h-screen bg-gray-50 p-4 md:p-8">
         <div className="mx-auto max-w-4xl bg-white rounded-lg shadow p-6">
           <div className="mb-6">
