@@ -1,9 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // Register a user --
@@ -50,12 +53,7 @@ export function useUserRegister() {
 // Login a user --
 async function userLogin(userData: Record<string, any>) {
   try {
-    const response = await axiosInstance.post(`/api/auth/login`, userData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axiosInstance.post(`/api/auth/login`, userData);
 
     return response.data; // Ensure your API returns useful data
   } catch (error: any) {
@@ -111,7 +109,7 @@ const refreshAccessToken = async () => {
   }
 };
 
-// setInterval(refreshAccessToken, 10 * 1000); // Refresh every 10 seconds
+// setInterval(refreshAccessToken, 5 * 1000); // Refresh every 10 seconds
 
 // verify user is logged in --
 export const useAuth = async () => {

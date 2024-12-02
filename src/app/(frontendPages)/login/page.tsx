@@ -7,9 +7,9 @@ import { useSetLogin } from "./loginMethods";
 
 export default function Component() {
   const router = useRouter();
-  const { isLoading } = useUserLogin();
+  const { mutate: useLogin, isLoading } = useUserLogin();
   const { email, password, setEmail, setPassword, handleSubmit } =
-    useSetLogin();
+    useSetLogin(useLogin);
 
   const [seePassword, setSeePassword] = useState<boolean>(false);
 
