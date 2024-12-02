@@ -1,8 +1,6 @@
+"use client";
 import Home from "./(frontendPages)/home/page";
+
 export default function page() {
-  return (
-    <>
-      <Home />
-    </>
-  );
+  return <Home />;
 }

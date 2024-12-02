@@ -1,86 +1,110 @@
 "use client";
-
-import Header from "@/app/CommonComps/Header";
 import { useState } from "react";
+import { ArrowRight, Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUserLogin } from "@/ReactQuery/authServices";
+import { useSetLogin } from "./loginMethods";
 
-export default function page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Component() {
   const router = useRouter();
-  const submitHandler = () => {};
+  const { isLoading } = useUserLogin();
+  const { email, password, setEmail, setPassword, handleSubmit } =
+    useSetLogin();
+
+  const [seePassword, setSeePassword] = useState<boolean>(false);
 
   return (
     <>
-      <Header />
-      <main className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-96">
-          <h1 className="text-2xl font-bold mb-2">
-            Login to DataScientistBoard
-          </h1>
-          <p className="text-gray-600 mb-6">
-            Enter your credentials to access your account
-          </p>
+      <div className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-2xl transform transition-all hover:scale-105 duration-500">
+          <div className="text-center">
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+              Welcome back
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Sign in to access your account
+            </p>
+          </div>
+          {isLoading ? (
+            <>Loading...</>
+          ) : (
+            <>
+              <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <div className="rounded-md shadow-sm ">
+                  <div>
+                    <label htmlFor="email-address" className="sr-only">
+                      Email address
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="email-address"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="appearance-none  relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Email address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="password" className="sr-only">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="password"
+                        name="password"
+                        type={seePassword ? "text" : "password"}
+                        autoComplete="current-password"
+                        required
+                        className="appearance-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setSeePassword(!seePassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 z-10"
+                      >
+                        {seePassword ? <Eye /> : <EyeOff />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-          <form onSubmit={submitHandler}>
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Enter your email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300"
+                  >
+                    <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                      <Lock className="h-5 w-5 text-blue-500 group-hover:text-blue-400 transition-colors duration-300" />
+                    </span>
+                    Sign in
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </button>
+                </div>
+              </form>
 
-            <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Enter your password"
-                onChange={(e) => {
-                  e.target.value;
-                }}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-            >
-              Log In
-            </button>
-          </form>
-
-          <p className="mt-4 text-center text-sm">
-            Don't have an account?{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:underline"
-              onClick={() => {
-                router.push("/signup");
-              }}
-            >
-              Sign up
-            </a>
-          </p>
+              <div className="mtext-center text-sm text-gray-600 flex justify-center">
+                Don't have an account?{" "}
+                <div
+                  className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-300 cursor-pointer"
+                  onClick={() => {
+                    router.push("/signup");
+                  }}
+                >
+                  Sign up here
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      </main>
+      </div>
     </>
   );
 }

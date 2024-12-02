@@ -1,0 +1,129 @@
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import axios from "axios";
+import { store } from "../app/Redux/store";
+import { setAuth } from "../app/Redux/slices/authSlice";
+
+export const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  withCredentials: true,
+});
+
+// Register a user --
+async function userRegister(userData: Record<string, any>) {
+  try {
+    const response = await axiosInstance.post(`/api/auth/register`, userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data; // Ensure your API returns useful data
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      // Handle axios-specific errors
+      throw new Error(
+        error.response?.data?.message ||
+          "An error occurred while registering the user"
+      );
+    } else {
+      // Fallback for unexpected errors
+      throw new Error(error.message || "An unknown error occurred");
+    }
+  }
+}
+
+// Custom hook for user registration
+export function useUserRegister() {
+  // const queryClient = useQueryClient();
+
+  return useMutation(
+    (userData: Record<string, any>) => userRegister(userData),
+    {
+      // onSuccess: () => {
+      //   queryClient.invalidateQueries("user-register");
+      // },
+      onError: (error: any) => {
+        console.error("Error during user registration:", error.message);
+      },
+    }
+  );
+}
+
+// Login a user --
+async function userLogin(userData: Record<string, any>) {
+  try {
+    const response = await axiosInstance.post(`/api/auth/login`, userData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    store.dispatch(
+      setAuth({ id: response.data.id, userType: response.data.userType })
+    );
+    return response.data; // Ensure your API returns useful data
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      // Handle axios-specific errors
+      throw new Error(
+        error.response?.data?.message ||
+          "An error occurred while registering the user"
+      );
+    } else {
+      // Fallback for unexpected errors
+      throw new Error(error.message || "An unknown error occurred");
+    }
+  }
+}
+
+// Custom hook for user registration
+export function useUserLogin() {
+  // const queryClient = useQueryClient();
+
+  return useMutation((userData: Record<string, any>) => userLogin(userData), {
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries("user-register");
+    // },
+    onError: (error: any) => {
+      console.error("Error during user registration:", error.message);
+    },
+  });
+}
+
+export const logout = async () => {
+  try {
+    await axiosInstance.post(`/api/auth/logout`, {}, { withCredentials: true });
+    window.location.href = "/login";
+  } catch (error: any) {
+    console.error(
+      "Error during logout:",
+      error.response?.data || error.message
+    );
+  }
+};
+
+// Refresh access token
+export const refreshAccessToken = async () => {
+  try {
+    await axiosInstance.post(
+      `/api/auth/refresh-token`,
+      {},
+      { withCredentials: true }
+    );
+  } catch {
+    window.location.href = "/login";
+  }
+};
+
+// verify user is logged in --
+export const useAuth = async () => {
+  try {
+    const response = await axiosInstance.get("/api/auth/session");
+    if (!response.data.loggedIn) {
+      window.location.href = "/login";
+    }
+  } catch (error) {
+    console.error("Error checking authentication:", error);
+    window.location.href = "/login";
+  }
+};
